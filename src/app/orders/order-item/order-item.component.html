@@ -1,0 +1,44 @@
+<h4 class="display-6">Order Food Item</h4>
+<hr>
+<form #form="ngForm" autocomplete="off" (submit)="onSubmit(form)">
+    <input type="hidden"name="itemName" #itemName="ngModel" [(ngModel)]="formData.itemName">
+    <input type="hidden"name="orderId" #orderId="ngModel" [(ngModel)]="formData.orderId">
+    <input type="hidden"name="orderItemId" #orderItemId="ngModel" [(ngModel)]="formData.orderItemId">
+    <div class="form-group">
+        <label for="">Food Item</label>
+        <select name="itemId" #itemId="ngModel" [(ngModel)]="formData.itemId" class="form-control" (change)=updatePrice($event.target)
+        [class.is-inValid]= "!isvalid && formData.itemId==0">
+            <option value="">--Select--</option>
+            <option value="{{item.itemId}}" *ngFor="let item of items">{{item.itemName}}</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6">
+            <label>Price</label>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">$</span>
+                </div>
+                <input type="text" #price= "ngModel" name="price" id="" class="form-control" [(ngModel)]="formData.price" readonly>
+            </div>
+        </div>
+        <div class="form-group col-md-6">
+            <label>Quantity</label>
+            <input type="text" #quantity= "ngModel" name="quantity" id="" class="form-control" [(ngModel)]="formData.quantity" (keyup)="updateTotal()"
+            [class.is-inValid]= "!isvalid && formData.quantity==0">
+        </div>
+    </div>
+    <div class="form-group">
+        <label for="">Total</label>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1">$</span>
+            </div>
+            <input type="text" #total= "ngModel" name="total" id="" class="form-control" [(ngModel)]="formData.total" readonly>
+        </div>
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-dark"><i class="fa fa-database"> Submit</i></button>
+        <button type="submit" class="btn btn-outline-dark ml-1" [mat-dialog-close]> <i class="fa fa-close"> Close</i></button>
+    </div>
+</form>

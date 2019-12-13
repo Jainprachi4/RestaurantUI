@@ -1,0 +1,12 @@
+[
+    {
+        "itemId": 1,
+        "itemName": "Daal Rice",
+        "price": 200
+    },
+    {
+        "itemId": 2,
+        "itemName": "Chhole Rice",
+        "price": 200
+    }
+]
