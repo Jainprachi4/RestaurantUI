@@ -5,6 +5,7 @@ import { OrderItem } from '../shared/order-item.model';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router'
 ;
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-orders',
@@ -13,7 +14,7 @@ import { Router } from '@angular/router'
 })
 export class OrdersComponent implements OnInit {
   orders;
-  constructor(private orderService:OrderService,
+  constructor(private orderService:OrderService,private toastrService:ToastrService,
     private router: Router) { }
 
   ngOnInit() {
@@ -28,9 +29,11 @@ export class OrdersComponent implements OnInit {
   }
 
   onOrderDelete(orderId:number){
-    this.orderService.deleteOrder(orderId).subscribe(data =>{
-       this.refreshList();
-    });
+    if(confirm("Are you sure you want to delete this order?")){
+      this.orderService.deleteOrder(orderId).subscribe(data =>{
+        this.refreshList();
+        this.toastrService.warning("Deleted Successfully","Restaurant App!");
+     });
+    }
+   }
   }
-
-}
