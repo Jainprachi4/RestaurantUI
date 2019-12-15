@@ -1,4 +1,5 @@
 <form #form="ngForm" autocomplete ="off" *ngIf="service.formData" (submit)="onOrderSubmit(form)">
+    <input type="hidden" name="orderId" #orderId="ngModel" [(ngModel)]="service.formData.orderId">
     <div class="row">
         <div class="col-md-6">
             <div class="form-group">
@@ -47,7 +48,7 @@
             <th>Quantity</th>
             <th>Total</th>
             <th>
-                <button class="btn btn-sm btn-success text-white" (click)="addOrUpdateOrderItem(null,service.formData.orderId)"><i class="fa fa-plus"></i> Add Item</button>
+                <a class="btn btn-sm btn-success text-white" (click)="addOrUpdateOrderItem(null,service.formData.orderId)"><i class="fa fa-plus"></i> Add Item</a>
             </th>
             
         </thead>
@@ -61,15 +62,15 @@
                 <td>{{item.quantity}}</td>
                 <td>{{item.total}}</td>
                 <td>
-                        <button class="btn btn-sm btn-info text-white" (click)="addOrUpdateOrderItem(i,service.formData.orderId)"><i class="fa fa-pencil"></i></button>
-                        <button class="btn btn-sm btn-danger text-white ml-1" (click)="onDeleteOrderItem(i,item.orderItemId)"><i class="fa fa-trash"></i></button>
+                        <a class="btn btn-sm btn-info text-white" (click)="addOrUpdateOrderItem(i,service.formData.orderId)"><i class="fa fa-pencil"></i></a>
+                        <a class="btn btn-sm btn-danger text-white ml-1" (click)="onDeleteOrderItem(i,item.orderItemId)"><i class="fa fa-trash"></i></a>
                 </td>
             </tr>
         </tbody>
     </table>
     <div class="form-group">
-        <button type="submit" class="btn btn-dark"><i class="fa fa-database"></i> Submit</button>
-        <button type="button" class="btn btn-dark" (click)="resetForm(form)"><i class="fa fa-refresh "></i> Reset</button> 
+        <button type="submit"  class="btn btn-dark"><i class="fa fa-database"></i> Submit</button>
+        <a  class="btn btn-dark" routerLink="/orders"><i class="fa fa-table "></i> View Orders</a> 
     </div>
     
 </form>

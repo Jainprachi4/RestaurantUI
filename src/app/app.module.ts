@@ -9,7 +9,7 @@ import { OrderItemComponent } from './orders/order-item/order-item.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatDialogModule} from '@angular/material/dialog';
 import { HttpClientModule } from '@angular/common/http';
-
+import { ToastrModule } from 'ngx-toastr'; 
 @NgModule({
   declarations: [
     AppComponent,
@@ -23,7 +23,8 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    HttpClientModule
+    HttpClientModule,
+    ToastrModule.forRoot()
   ],
   entryComponents:[OrderItemComponent],
   providers: [],

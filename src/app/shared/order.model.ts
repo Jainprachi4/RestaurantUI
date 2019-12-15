@@ -4,5 +4,7 @@ export class Order {
     public orderNo: string,
     public customerId: number,
     public payMethod: string,
-    public gTotal: number){}
+    public gTotal: number,
+    public customerName:string,
+    public deletedOrderItemIds:number[]){}
 }

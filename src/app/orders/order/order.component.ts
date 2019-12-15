@@ -6,6 +6,8 @@ import { OrderItemComponent } from '../order-item/order-item.component';
 import { OrderItem } from 'src/app/shared/order-item.model';
 import { CustomerService } from 'src/app/shared/customer.service';
 import { Customer } from 'src/app/shared/customer.model';
+import { ToastrService } from 'ngx-toastr';
+import {  Router, ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-order',
@@ -18,9 +20,21 @@ items:OrderItem[];
 customers:Customer[];
 isValid:boolean=true;
   constructor(private service:OrderService,private customerService:CustomerService,
-    private dialog:MatDialog) { }
+    private dialog:MatDialog,
+    private toastrService:ToastrService,
+    private router:Router,
+    private currentRoute:ActivatedRoute) { }
 
   ngOnInit() {
+    let orderId=this.currentRoute.snapshot.paramMap.get("id");
+    if(orderId==null)
+     this.resetForm(); 
+    else{
+      this.service.getOrderById(orderId).subscribe(data =>{
+        this.service.formData= data.order,
+        this.service.orderItems=data.orderItemList
+      })
+    }
     this.resetForm();
     this.customerService.getCustomers().subscribe(data => this.customers =data );
   }
@@ -33,7 +47,9 @@ isValid:boolean=true;
       orderNo: Math.floor(100000+Math.random()*900000).toString(),
       customerId: 0,
       payMethod: '',
-      gTotal: 0
+      gTotal: 0,
+      customerName: '',
+      deletedOrderItemIds:[]
     };
     this.service.orderItems=[];
   }
@@ -51,6 +67,9 @@ isValid:boolean=true;
   }
 
   onDeleteOrderItem(i:number, orderItemId:number){
+    if(orderItemId !=null){
+      this.service.formData.deletedOrderItemIds.push(orderItemId);
+    }
     this.service.orderItems.splice(i,1);
     this.updateGrandTotal();
   }
@@ -76,7 +95,11 @@ isValid:boolean=true;
 
   onOrderSubmit(form:NgForm){
     if(this.validateForm()){
-      
+      this.service.saveOrUpdateOrder().subscribe(data =>{
+        this.resetForm();
+        this.toastrService.success("Submitted Successfully","Restaurant App!");
+        this.router.navigate(['/orders']);
+      })
     }
   }
 }
